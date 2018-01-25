@@ -3,12 +3,15 @@ import logo from '../logo.svg';
 import '../styles/App.css';
 import { connect } from 'react-redux';
 // pull in actions from action/index
+import { FETCHING_CHARS, CHARS_RECEIVED, ERROR_FETCHING_CHARS, getStarWars } from '../actions';
+
 
 class App extends Component {
   componentDidMount() {
-    // call our action
+    this.props.getStarWars();
   }
   render() {
+    console.log(this.props)
     return (
       <div className="App">
         {this.props.fetching ? (
@@ -25,8 +28,16 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    chars: state.charsReducer.chars,
+    fetching: state.charsReducer.fetching,
+    error: state.charsReducer.error
+  }
+}
 // our mapDispatchToProps needs to have two properties inherited from state
 // the chars and the fetching boolean
-export default connect(null, {
+export default connect(mapStateToProps, { getStarWars
   /* actions go here */
 })(App);
